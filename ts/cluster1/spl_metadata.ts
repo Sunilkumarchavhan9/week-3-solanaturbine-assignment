@@ -10,7 +10,7 @@ import { createSignerFromKeypair, signerIdentity, publicKey } from "@metaplex-fo
 import { bs58 } from "@coral-xyz/anchor/dist/cjs/utils/bytes";
 
 // Define our Mint address
-const mint = publicKey("<mint address>")
+const mint = publicKey("FCPPF78HLaFvRVYLoabbUnFXQefcVGHzMFvgKJWvqGh1")
 
 // Create a UMI connection
 const umi = createUmi('https://api.devnet.solana.com');
@@ -21,29 +21,42 @@ umi.use(signerIdentity(createSignerFromKeypair(umi, keypair)));
 (async () => {
     try {
         // Start here
-        // let accounts: CreateMetadataAccountV3InstructionAccounts = {
-        //     ???
-        // }
+        let accounts: CreateMetadataAccountV3InstructionAccounts = {
+            mint,
+            mintAuthority: signer,
 
-        // let data: DataV2Args = {
-        //     ???
-        // }
+        }
 
-        // let args: CreateMetadataAccountV3InstructionArgs = {
-        //     ???
-        // }
+        let data: DataV2Args = {
+            name: "Jinx_Token",
+            symbol:"JiNx",
+            uri:"https://example.com/metadata.json", 
+            sellerFeeBasisPoints : 500, //5$ 10,000sec
+            creators: null,
+            collection: null,
+            uses: null
+        }
 
-        // let tx = createMetadataAccountV3(
-        //     umi,
-        //     {
-        //         ...accounts,
-        //         ...args
-        //     }
-        // )
+        let args: CreateMetadataAccountV3InstructionArgs = {
+            data,
+            isMutable: true,
+            collectionDetails: null
+        }
 
-        // let result = await tx.sendAndConfirm(umi);
-        // console.log(bs58.encode(result.signature));
+         let tx = createMetadataAccountV3(
+             umi,
+             {
+                 ...accounts,
+                 ...args
+             }
+         )
+
+        let result = await tx.sendAndConfirm(umi);
+        console.log(bs58.encode(result.signature));
     } catch(e) {
         console.error(`Oops, something went wrong: ${e}`)
     }
 })();
+
+
+//FRrv5jZitM67Vgd9prEioSjH4db7HqhvSk57dbAQB3oR2PS5M1U2De9LvFtLBHUBLYXLyR5Wnm6YbRzPNvrCCBA

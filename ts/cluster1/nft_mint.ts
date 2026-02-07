@@ -16,11 +16,22 @@ umi.use(mplTokenMetadata())
 const mint = generateSigner(umi);
 
 (async () => {
-    // let tx = ???
-    // let result = await tx.sendAndConfirm(umi);
-    // const signature = base58.encode(result.signature);
+    let tx = createNft(umi, {
+        mint, 
+        name: "my awsome rug",
+        symbol: "RUG",
+        uri: " https://gateway.irys.xyz/9oexN4rDeZ3cNP2erxyT21m4mvEUvavL1t483p1BVapA",
+        sellerFeeBasisPoints:percentAmount(5)
+    })
+    let result = await tx.sendAndConfirm(umi);
+    const signature = base58.encode(result.signature);
     
-    // console.log(`Succesfully Minted! Check out your TX here:\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`)
+    console.log(`Succesfully Minted! Check out your TX here:\nhttps://explorer.solana.com/tx/${signature}?cluster=devnet`)
 
     console.log("Mint Address: ", mint.publicKey);
 })();
+
+
+// Succesfully Minted! Check out your TX here:
+// https://explorer.solana.com/tx/2x6QNhostKoTvk4sYowLqPnDSymdaSjATGuYEWpJSvmTeDxN81ouqyYaUUdYxjBm3245gxrgDjQaptKoTVLVgpS3?cluster=devnet
+// Mint Address:  7zLuJdrFcwyowrmXKmju63ukk2ZcCAsKyEmkqGbD6Mti
